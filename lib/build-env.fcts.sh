@@ -132,6 +132,8 @@ source lib/source-build-env.sh" > build-env.sh
         echo "
 # Build Environment created by buildEnv
 
+# unset any module parameters here
+
 unset_build_env" > build-unset.sh
         echo ".build-env.sh created"
     fi
@@ -140,6 +142,9 @@ unset_build_env" > build-unset.sh
     then
         echo "$BASE_DIR" > .be-source
         echo ".be-source created."
+    else
+        BASE_DIR=$(cat .be-source)
+        echo "Using BuildEnv from $BASE_DIR"
     fi
 
     if [[ -d .git ]]
