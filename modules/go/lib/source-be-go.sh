@@ -89,7 +89,10 @@ function be_do_go_docker_run {
     else
         do_docker_run "$@"
     fi
+}
 
+function be-create-go-docker-build {
+    cp -vrp $BASE_DIR/modules/go/glide build-env-docker/
 }
 
 beWrappers=("${beWrappers[@]}" "go go" "glide go")

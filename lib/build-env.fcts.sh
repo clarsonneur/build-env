@@ -110,7 +110,7 @@ function be-create-wrapper-inenv {
 function be-create-wrappers {
     for i in ${beWrappers[@]}
     do
-        be-create-wrapper bin/$i
+        be-create-wrapper bin/$i $1
     done
 }
 
@@ -158,7 +158,7 @@ unset_build_env" > build-unset.sh
 
     mkdir -vp bin lib build-env-docker
 
-    cp -v $BASE_DIR/lib/*.sh lib/
+    cp -v $BASE_DIR/lib/* lib/
 
     if [[ $# -gt 0 ]]
     then
@@ -176,6 +176,17 @@ unset_build_env" > build-unset.sh
         echo "build-env.modules created"
     else
         docker-build-env
+    fi
+}
+
+function docker-build-env {
+    source $BASE_DIR/modules/$MOD/lib/source-be-$1.sh
+
+    be-create-wrappers $1
+
+    if [[ "$1" != "" ]]
+    then
+        eval be-create-$1-docker-build
     fi
 }
 
