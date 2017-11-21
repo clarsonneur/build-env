@@ -89,13 +89,16 @@ function unset_build_env {
 }
 
 function be-create-wrapper {
-    cp -v $BASE_DIR/bin/pre-wrapper bin/$2
+    echo "!/bin/bash
+" > bin/$1
+    echo "MOD=$2"
+    cat $BASE_DIR/bin/pre-wrapper.sh >> bin/$1
     eval "be-create-wrapper-$1 bin/$1"
-    if [[ -f $BASE_DIR/bin/post-wrapper ]]
+    if [[ -f $BASE_DIR/bin/post-wrapper.sh ]]
     then
-        cat $BASE_DIR/bin/post-wrapper >> bin/$1
+        cat $BASE_DIR/bin/post-wrapper.sh >> bin/$1
     fi
-    echo "Wrapper '$1' created."
+    echo "$2 Wrapper '$1' created."
 }
 
 function be-create-wrapper-inenv {

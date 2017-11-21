@@ -63,4 +63,33 @@ function be-create-wrapper-glide {
     cat $BASE_DIR/modules/go/bin/glide.sh >> $1
 }
 
-beWrappers=("${beWrappers[@]}" "go" "glide")
+function be-go-mount-setup {
+    MOUNT="-v $GOPATH:/go -w /go/src/$BE_PROJECT"
+}
+
+function be_do_go_docker_run {
+    if [[ "$CI_WORKSPACE" != "" ]]
+    then # Jenkins workspace detected.
+        START_DOCKER="$BUILD_ENV_DOCKER run -di $MOUNT $PROXY -e GOPATH=/go/workspace $USER $1"
+        echo "Starting container : '$START_DOCKER'"
+        CONT_ID=$($START_DOCKER /bin/cat)
+        shift
+        if [[ $CONT_ID = "" ]]
+        then
+            echo "Unable to start the container"
+            exit 1
+        fi
+        set -xe
+        $BUILD_ENV_DOCKER exec -i $CONT_ID mkdir -p $WORKSPACE/go-workspace/src $WORKSPACE/go-workspace/bin
+        $BUILD_ENV_DOCKER exec -i $CONT_ID ln -sf $WORKSPACE/go-workspace /go/workspace
+        $BUILD_ENV_DOCKER exec -i $CONT_ID ln -sf $WORKSPACE /go/workspace/src/$BE_PROJECT
+        $BUILD_ENV_DOCKER exec -i $CONT_ID bash -c "cd /go/workspace/src/$BE_PROJECT ; $*"
+        $BUILD_ENV_DOCKER rm -f $CONT_ID
+        set +x
+    else
+        do_docker_run "$@"
+    fi
+
+}
+
+beWrappers=("${beWrappers[@]}" "go go" "glide go")
