@@ -1,5 +1,4 @@
-#!/bin/bash
-#
+# From BuildEnv bin/pre-wrapper.sh
 
 BUILD_SCRIPT_PATH=$(dirname $0)
 BUILD_SCRIPT_LIB=$(dirname $BUILD_SCRIPT_PATH)/lib/run-build-env.sh

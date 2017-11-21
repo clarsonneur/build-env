@@ -1,3 +1,5 @@
+# From BuildEnv:modules/go/bin/go.sh
+
 if [[ "$CGO_ENABLED" = "0" ]]
 then
    GOBIN="/usr/local/go/bin/go-static"
@@ -21,4 +23,4 @@ then
    shift
 fi
 
-do_docker_run $BE_PROJECT-go-env $GOBIN $BUILD_FLAGS "$@"
+docker_run $BE_PROJECT-go-env $GOBIN $BUILD_FLAGS "$@"

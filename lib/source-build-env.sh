@@ -2,6 +2,12 @@
 
 source lib/build-env.fcts.sh
 
+MODS=(`cat $BUILD_ENV_PROJECT/build-env.modules`)
+for MOD in ${MOD[@]}
+do
+    source lib/source-be-$MOD.sh
+done
+
 # Core build env setup
 
 set +xe
