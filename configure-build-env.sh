@@ -3,11 +3,6 @@
 # This script creates or update the build-env files
 #
 
-function docker-build-env {
-    source $BASE_DIR/modules/$MOD/lib/source-be-$1.sh
-
-    be-create-wrappers
-}
 
 set -e
 
