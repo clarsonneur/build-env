@@ -54,3 +54,13 @@ function go_unset {
       unset BUILD_ENV_GOPATH
     fi
 }
+
+function be-create-wrapper-go {
+    cat $BASE_DIR/modules/go/bin/go.sh >> $1
+}
+
+function be-create-wrapper-glide {
+    cat $BASE_DIR/modules/go/bin/glide.sh >> $1
+}
+
+beWrappers=("${beWrappers[@]}" "go" "glide")
