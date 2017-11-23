@@ -63,6 +63,10 @@ function be-create-wrapper-glide {
     cat $BASE_DIR/modules/go/bin/glide.sh >> $1
 }
 
+function be-create-wrapper-create-go-build-env.sh {
+    cat $BASE_DIR/modules/go/bin/create-be.sh >> $1
+}
+
 function be-go-mount-setup {
     MOUNT="-v $GOPATH:/go -w /go/src/$BE_PROJECT"
 }
@@ -95,4 +99,4 @@ function be-create-go-docker-build {
     cp -vrp $BASE_DIR/modules/go/glide build-env-docker/
 }
 
-beWrappers=("${beWrappers[@]}" "go go" "glide go")
+beWrappers=("${beWrappers[@]}" "go go" "glide go" "create-go-build-env.sh go")

@@ -16,7 +16,13 @@ fi
 
 source $BASE_DIR/lib/build-env.fcts.sh
 
-if [[ -f build-env.sh ]]
+if [[ "$1" = "--force" ]]
+then
+    FORCE=TRUE
+    shift
+fi
+
+if [[ -f build-env.sh ]] && [[ "$FORCE" = "" ]]
 then
    echo "Unable to create a BuildEnv on an existing one"
    exit 1
@@ -32,53 +38,8 @@ fi
 BE_PROJECT=$1
 shift
 
-be-update force
+be-create force "$@"
+be-update
 
-echo "# Build Environment created by $(basename $0)
-BE_PROJECT=$BE_PROJECT
-
-# Add any module parameters here
-
-source lib/source-build-env.sh
-" > build-env.sh
-echo ".build-env.sh created"
-
-echo "$BASE_DIR" > .be-source
-echo ".be-source created."
-
-if [[ -d .git ]]
-then
-    if [[ -f .gitignore ]]
-    then
-        if [[ "$(cat .gitignore | grep -e "^.be-\*$")" = ""  ]]
-        then
-            echo ".be-*" >> .gitignore
-            echo ".gitignore updated"
-        fi
-    else
-        echo ".gitignore created"
-    fi
-fi
-
-mkdir -v bin lib build-env-docker
-
-cp -v $BASE_DIR/lib/*.sh lib/
-
-if [[ $# -gt 0 ]]
-then
-    echo "" > build-env.modules
-    for MOD in $*
-    do
-        if [[ -d $BASE_DIR/modules/$MOD ]]
-        then
-            cp -v $BASE_DIR/modules/$MOD/lib/*.sh lib/
-            echo "$MOD" >> build-env.modules
-            docker-build-env $MOD
-            echo "Module $MOD added."
-        fi
-    done
-    echo "build-env.modules created"
-else
-    docker-build-env
-fi
+echo  "Load your Build environment with build-env (alias) or source build-env.sh"
 

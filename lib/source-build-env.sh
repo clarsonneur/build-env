@@ -2,7 +2,7 @@
 
 source lib/build-env.fcts.sh
 
-MODS=(`cat $BUILD_ENV_PROJECT/build-env.modules`)
+MODS=(`cat build-env.modules`)
 for MOD in ${MOD[@]}
 do
     source lib/source-be-$MOD.sh
