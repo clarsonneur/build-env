@@ -38,8 +38,7 @@ fi
 BE_PROJECT=$1
 shift
 
-be-create force "$@"
-be-update
-
+be_create force "$@"
+be_update
 echo  "Load your Build environment with build-env (alias) or source build-env.sh"
 

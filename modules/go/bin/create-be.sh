@@ -9,7 +9,7 @@ fi
 
 cd $BUILD_ENV_PROJECT
 
-BUILD_ENV=${BE_PROJECT}-golang-env
+BUILD_ENV=${BE_PROJECT}-$MOD-env
 
 if [ "$http_proxy" != "" ]
 then
@@ -18,9 +18,9 @@ fi
 
 USER="--build-arg UID=$(id -u) --build-arg GID=$(id -g)"
 
-set -x
-$BUILD_ENV_DOCKER build -t $BUILD_ENV $PROXY $USER glide
-set +x
+_be_set_debug
+$BUILD_ENV_DOCKER build -t $BUILD_ENV $PROXY $USER build-env-docker/glide
+_be_restore_debug
 
 echo "'$BUILD_ENV' image built."
 
