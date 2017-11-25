@@ -10,6 +10,13 @@ fi
 
 cd $BUILD_ENV_PROJECT
 
+source lib/build-env.fcts.sh
+MODS=(`cat build-env.modules`)
+for MOD in ${MOD[@]}
+do
+    source lib/source-be-$MOD.sh
+done
+
 if [ "$http_proxy" != "" ]
 then
    PROXY="-e http_proxy=$http_proxy -e https_proxy=$http_proxy -e no_proxy=$no_proxy"
@@ -18,13 +25,17 @@ fi
 USER="-u $(id -u)"
 echo "INFO! Run from docker container."
 
+MOUNT=""
 if [[ "$DOCKER_JENKINS_MOUNT" != "" ]]
 then # Set if jenkins requires a different mount point
     MOUNT="-v $DOCKER_JENKINS_MOUNT"
 else
     if [[ "$MOD" != "" ]]
     then
-        eval "be-${MOD}-mount-setup"
+        for MOD in ${MOD[@]}
+        do
+            be_${MOD}_mount_setup
+        done
     fi
 fi
 
@@ -36,12 +47,14 @@ fi
 function docker_run {
     if [[ "$MOD" != "" ]]
     then
-        eval be_do_${MOD}_docker_run "$@"
+        be_do_${MOD}_docker_run "$@"
     else
         do_docker_run "$@"
     fi
 }
 
 function do_docker_run {
-    eval $BUILD_ENV_DOCKER run --rm -i $TTY $MOUNT $PROXY $USER "$@"
+    _be_set_debug
+    $BUILD_ENV_DOCKER run --rm -i $TTY $MOUNT $PROXY $USER "$@"
+    _be_restore_debug
 }

@@ -32,7 +32,7 @@ repository.
 
 But your repository managed with build-env is not connected to this
 repository.
-So, to get those fixes and enhancement, build-env has an `be-update`
+So, to get those fixes and enhancement, build-env has an `be_update`
 
 This one will refresh your build-env core files and wrappers from the
 source repository, ie this current one.
@@ -89,10 +89,18 @@ cd <MyRepo>
 
 Every files are going to be generated for you.
 
-# Updating the build-env
+# Updating BuildEnv from BuildEnv repository
+
+*Warning!*
+
+> You need to have a clone of the https://github.com/forj-oss/build-env
+> repository and your `.be-source` to have the path to your build-env cloned.
+
+> If you have installed BuildEnv with configure-build-env.sh, `.be-source`
+> has been set for you.
 
 1. load your build env with `build-env` or `source build-env.sh`
-2. refresh it with `be-update`
+2. refresh it with `be_update`
 
 # Updating your Project name
 
