@@ -52,19 +52,19 @@ It creates GO and glide wrappers, and a docker image.
 When *you install* a new Build env in your repository, the following files
 will be created or copied:
 
- files                   | comments               | origin    | owner
--------------------------|------------------------|-----------|---------
- lib/source-build-env.sh | Source core file       | Copied    | BuildEnv
- lib/run-build-env.sh    | wrapper core file      | Copied    | BuildEnv
- lib/source-be-\*.sh     | Source module file     | Copied    | BuildEnv
- lib/run-be-\*.sh        | Wrapper module file    | Copied    | BuildEnv
- .be-source              | Path to BuildEnv source| created   | Your repo
- build-env.modules       | Modules list applied   | created   | Your repo
- build-env.sh            | build-env set file     | created   | Your repo
- build-unset.sh          | build-env unset file   | created   | Your repo
- build-env               | Docker image dir       | created   | Your repo
- bin/inenv               | build tool container   | Generated | BuildEnv
- bin/\*                  | wrapper files          | Generated | BuildEnv
+ files                   | comments               | origin    | owner    | in git
+-------------------------|------------------------|-----------|----------|-------
+ lib/source-build-env.sh | Source core file       | Copied    | BuildEnv | yes
+ lib/run-build-env.sh    | wrapper core file      | Copied    | BuildEnv | yes
+ lib/source-be-\*.sh     | Source module file     | Copied    | BuildEnv | yes
+ lib/run-be-\*.sh        | Wrapper module file    | Copied    | BuildEnv | yes
+ .be-source              | Path to BuildEnv source| created   | Your repo| no
+ build-env.modules       | Modules list applied   | created   | Your repo| yes
+ build-env.sh            | build-env set file     | created   | Your repo| yes
+ build-unset.sh          | build-env unset file   | created   | Your repo| yes
+ build-env               | Docker image dir       | created   | Your repo| yes
+ bin/inenv               | build tool container   | Generated | BuildEnv | yes
+ bin/\*                  | wrapper files          | Generated | BuildEnv | yes
 
 When *you update* an existing Build env in your repository, only copied/
 generated are going to be refreshed.
