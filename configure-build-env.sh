@@ -16,6 +16,12 @@ fi
 
 source $BASE_DIR/lib/build-env.fcts.sh
 
+if [[ "$1" = "--help" ]]
+then
+    echo "usage is $0 [--force] ProjectName [modules ...]"
+    exit
+fi
+
 if [[ "$1" = "--force" ]]
 then
     FORCE=TRUE
