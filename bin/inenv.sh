@@ -1,5 +1,13 @@
 # From BuildEnv bin/inenv.sh
 
+if [[ "$1" == --help ]]
+then
+    echo "usage is inenv [module]
+
+inenv is used to enter in the builder module container with bash to get build context."
+    exit
+fi
+
 if [[ -f $BUILD_ENV_PROJECT/build-env.modules ]]
 then
     MODS=(`cat $BUILD_ENV_PROJECT/build-env.modules`)
