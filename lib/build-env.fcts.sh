@@ -64,7 +64,11 @@ function be_common_load {
        export BUILD_ENV_LOADED=true
        export BUILD_ENV_PROJECT=$(pwd)
        BUILD_ENV_PATH=$PATH
-       export PATH=$(pwd)/bin:$PATH:$GOPATH/bin
+       for MOD in $MODS
+       do
+           ${MOD}_set_path
+       done
+       export PATH=$(pwd)/bin:$PATH
        PROMPT_ADDONS_BUILD_ENV="BE: $(basename ${BUILD_ENV_PROJECT})"
        echo "Build env loaded. To unload it, call 'build-env-unset'"
        alias build-env-unset='cd $BUILD_ENV_PROJECT && source build-unset.sh'
