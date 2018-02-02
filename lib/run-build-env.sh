@@ -27,23 +27,22 @@ fi
 
 USER="-u $(id -u)"
 
-MOUNT=""
-if [[ "$DOCKER_JENKINS_MOUNT" != "" ]]
-then # Set if jenkins requires a different mount point
-    MOUNT="-v $DOCKER_JENKINS_MOUNT"
-else
-    if [[ "$MOD" != "core" ]]
-    then
-        be_${MOD}_mount_setup
-    fi
-fi
-
 if [ -t 1 ]
 then
    TTY="-t"
 fi
 
 function docker_run {
+    MOUNT=""
+    if [[ "$DOCKER_JENKINS_MOUNT" != "" ]]
+    then # Set if jenkins requires a different mount point
+        MOUNT="-v $DOCKER_JENKINS_MOUNT"
+    else
+        if [[ "$MOD" != "core" ]]
+        then
+            be_${MOD}_mount_setup
+        fi
+    fi
     if [[ "$MOD" != "core" ]]
     then
         be_do_${MOD}_docker_run "$@"

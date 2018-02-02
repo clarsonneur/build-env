@@ -14,7 +14,7 @@ then
 
     case ${#MODS[@]} in
     0) IMAGE=alpine ;;
-    1) IMAGE="${BE_PROJECT}-${MODS[0]}-env" ;;
+    1) IMAGE="${BE_PROJECT}-${MODS[0]}-env" ; MOD=${MODS[0]};;
     *)
         for MOD in ${MODS[@]}
         do
