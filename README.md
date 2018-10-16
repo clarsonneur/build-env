@@ -13,6 +13,7 @@ Build env tries resolve this gap.
 ## Build env core functionality
 
 Build env provides :
+
 - a collection of wrappers depending on modules to build
 - core functionality
 - creation and update of build-env
@@ -69,7 +70,7 @@ will be created or copied:
 When *you update* an existing Build env in your repository, only copied/
 generated are going to be refreshed.
 
-# Getting started
+## Getting started
 
 To install the build env on a new project, run:
 
@@ -89,24 +90,65 @@ cd <MyRepo>
 
 Every files are going to be generated for you.
 
-# Updating BuildEnv from BuildEnv repository
+## Updating BuildEnv from BuildEnv repository
 
 *Warning!*
 
 > You need to have a clone of the https://github.com/forj-oss/build-env
 > repository and your `.be-source` to have the path to your build-env cloned.
-
+>
 > If you have installed BuildEnv with configure-build-env.sh, `.be-source`
 > has been set for you.
 
 1. load your build env with `build-env` or `source build-env.sh`
 2. refresh it with `be_update`
 
-# Updating your Project name
+## Updating your Project name
 
 Edit `build-env.sh` and update `BE_PROJECT`
 
-# Updating Modules parameters
+## Updating Modules parameters
 
 According to the Support module parameters, edit `build-env.sh` and set
 any variables before the last `source` command.
+
+## Contribute to this project
+
+As usual, if create a Pull Request to propose any change to this repository.
+
+Following are some helps about Build-env modules:
+
+### Creating your build-env module
+
+`build-env` scripts has been designed to manage modules in your repository and provide more functionnalities to the repos.
+
+It was originally designed for GO, so that GO is not required to be installed on your workstation, but uses Docker
+and wrap common GO commands to your shell transparently (path/aliases)
+
+You can apply multiple modules to a reposity, like, `GO` and `docker-publish`
+
+In short `GO` provides `go` command from a build-env docker image, and `docker-publish` provides a way to build and
+publish a final product image to docker HUB.
+
+When a module is installed, build-env script call some functions defined in the module. Following describes those required functions:
+
+#### build-env module function
+
+build-env will call following function. Your module needs to prefix each function with the module name.
+
+Ex: for GO module, prefix is `go` which is the name of the module. We replace each `<prefix>` by the module name.
+
+- `<prefix>_jenkins_context`
+- `<prefix>_check_and_set`
+- `<prefix>_set_path`
+- `unset_<prefix>`
+- `be_create_wrapper_<prefix>`
+- `be_<prefix>_mount_setup`
+- `be_do_<prefix>_docker_run`
+- `be_create_<prefix>_docker_build`
+- `<prefix>_create_build_env`
+
+The script containing this code have to be called as `lib/source-be-<prefix>.sh`
+
+At the end of the file, you must declare the collection files to copy with `beWrappers["<prefix>"]="<files>"`
+
